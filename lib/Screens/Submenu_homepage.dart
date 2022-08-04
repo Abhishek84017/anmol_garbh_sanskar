@@ -1,3 +1,4 @@
+import 'package:anmor_garbh_sanskar/Widgets/pdfviewer.dart';
 import 'package:anmor_garbh_sanskar/constants/pallete.dart';
 import 'package:anmor_garbh_sanskar/model/submenu_model.dart';
 import 'package:anmor_garbh_sanskar/players/audioplayer.dart';
@@ -52,15 +53,20 @@ class _SubMenuState extends State<SubMenu> {
                                     }
                                   if(item.type == 'video')
                                     {
-                                      print('hgello');
+
                                       Navigator.push(context, CupertinoPageRoute(builder: (context) => YoutubeVideoPlayer(videoCode: "${item.content}")));
                                     }
+                                  if(item.type == 'pdf')
+                                  {
+
+                                    Navigator.push(context, CupertinoPageRoute(builder: (context) => PdfViewer(webPdf: "${item.content}",)));
+                                  }
                                 },
                                 title: Align(
                                     alignment: Alignment.centerRight,
                                     child: Text(
                                       '${item.title}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold),
                                     )),
@@ -121,13 +127,13 @@ class _SubMenuState extends State<SubMenu> {
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       '${item.title}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold),
                                     )),
                               ),
                             ),
-                            item.icon == null  ? Positioned(
+                            item.icon == null  ? const Positioned(
                               top: 3,
                               right: -25,
                               child: CircleAvatar(

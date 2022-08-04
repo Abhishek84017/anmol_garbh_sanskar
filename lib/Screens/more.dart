@@ -1,4 +1,6 @@
 import 'package:anmor_garbh_sanskar/Screens/become_premium.dart';
+import 'package:anmor_garbh_sanskar/Screens/chat_screen.dart';
+import 'package:anmor_garbh_sanskar/Screens/get_meal.dart';
 import 'package:anmor_garbh_sanskar/constants/pallete.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,7 @@ class More extends StatefulWidget {
 
 class _MoreState extends State<More> {
 
-  final List<String> _menuItems = <String>['About','Profile','Contacts Us','Packages','Reports','Support','Logout'];
+  final List<String> _menuItems = <String>['About','Profile','Contacts Us','Packages','Get Meal','Reports','Support','Logout'];
 
 
   Future<bool> _onBackPress() async {
@@ -66,6 +68,14 @@ class _MoreState extends State<More> {
                 if(item == 'Packages')
                 {
                   Navigator.push(context, CupertinoPageRoute(builder: (context) => const BecomePremiumPage()));
+                }
+                if(item == 'Support')
+                {
+                  Navigator.push(context, CupertinoPageRoute(builder: (context) => const ChatScreen()));
+                }
+                if(item == 'Get Meal')
+                {
+                  Navigator.push(context, CupertinoPageRoute(builder: (context) => const GetMeals()));
                 }
               },
               child: Column(

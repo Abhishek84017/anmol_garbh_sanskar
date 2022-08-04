@@ -15,7 +15,6 @@ import '../Widgets/text_button.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/reasonModel.dart';
-import '../model/signinModel.dart';
 import 'Homepage.dart';
 import 'constants/app_constants.dart';
 
@@ -57,7 +56,7 @@ class _SignUpState extends State<SignUp> {
           isFetchedReason = true;
         });
       }
-    } on SocketException catch (error) {
+    } on SocketException {
       Fluttertoast.showToast(msg: 'No Internet Connection');
     } catch (e) {
       print(e.toString());
@@ -72,9 +71,11 @@ class _SignUpState extends State<SignUp> {
       'password': _userPassword.text,
       'mobile': _userMobileNo.text,
       'join_reason_id': _reasonForJoining.toString(),
-      'last_menstrual_date': _lastMenstrualDateController.text
+      'last_menstrual_date': _selectedDate.toString()
     };
+    print(data);
     final response = await http.post(Uri.parse('https://apis.bhavishashah.com/api/user-registration'), body: data);
+    print(response.statusCode);
       try {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
@@ -334,7 +335,7 @@ class _SignUpState extends State<SignUp> {
                                       Fluttertoast.showToast(msg: 'Please Select Reason');
                                       return;
                                     }
-                                  _signUp();
+                                                              _signUp();
                                   setState((){
                                     _isLoaded = false;
                                   });

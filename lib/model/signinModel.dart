@@ -60,25 +60,25 @@ class SignInModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['mobile'] = this.mobile;
-    data['username'] = this.username;
-    data['password'] = this.password;
-    data['join_reason_id'] = this.joinReasonId;
-    data['token'] = this.token;
-    data['member_type'] = this.memberType;
-    data['exipre_plan_date'] = this.exiprePlanDate;
-    data['status'] = this.status;
-    data['inserted'] = this.inserted;
-    data['inserted_by'] = this.insertedBy;
-    data['modified'] = this.modified;
-    data['modified_by'] = this.modifiedBy;
-    data['last_menstrual_date'] = this.lastMenstrualDate;
-    data['is_plan_active'] = this.isPlanActive;
-    data['last_modified_chats'] = this.lastModifiedChats;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['mobile'] = mobile;
+    data['username'] = username;
+    data['password'] = password;
+    data['join_reason_id'] = joinReasonId;
+    data['token'] = token;
+    data['member_type'] = memberType;
+    data['exipre_plan_date'] = exiprePlanDate;
+    data['status'] = status;
+    data['inserted'] = inserted;
+    data['inserted_by'] = insertedBy;
+    data['modified'] = modified;
+    data['modified_by'] = modifiedBy;
+    data['last_menstrual_date'] = lastMenstrualDate;
+    data['is_plan_active'] = isPlanActive;
+    data['last_modified_chats'] = lastModifiedChats;
     return data;
   }
 }

@@ -17,7 +17,7 @@ class _YoutubeVideoPlayerState extends State<YoutubeVideoPlayer> {
 
   @override
   void initState() {
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     _initController();
     super.initState();
   }
@@ -32,7 +32,7 @@ class _YoutubeVideoPlayerState extends State<YoutubeVideoPlayer> {
         DeviceOrientation.portraitDown,
       ]);
     }
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     _controller.dispose();
     super.dispose();
   }

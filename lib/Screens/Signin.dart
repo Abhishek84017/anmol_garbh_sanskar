@@ -7,7 +7,6 @@ import 'package:anmor_garbh_sanskar/Screens/singup.dart';
 import 'package:anmor_garbh_sanskar/Widgets/circular.dart';
 import 'package:anmor_garbh_sanskar/Widgets/text_field.dart';
 import 'package:anmor_garbh_sanskar/constants/pallete.dart';
-import 'package:anmor_garbh_sanskar/model/signinModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -127,7 +126,7 @@ class _SignInState extends State<SignIn> {
                                 textInputAction: TextInputAction.done,
                                 inputDecoration:  InputDecoration(
                                   labelText: 'Password',
-                                  prefixIcon: Icon(
+                                  prefixIcon: const Icon(
                                     FontAwesomeIcons.unlockKeyhole,
                                     color: Colors.white,
                                   ),

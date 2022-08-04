@@ -39,18 +39,18 @@ class FiveQModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> FiveQModel = new Map<String, dynamic>();
-    FiveQModel['id'] = this.id;
-    FiveQModel['day'] = this.day;
-    FiveQModel['title'] = this.title;
-    FiveQModel['description'] = this.description;
-    FiveQModel['video_link'] = this.videoLink;
-    FiveQModel['image'] = this.image;
-    FiveQModel['inserted'] = this.inserted;
-    FiveQModel['inserted_by'] = this.insertedBy;
-    FiveQModel['modified'] = this.modified;
-    FiveQModel['modified_by'] = this.modifiedBy;
-    FiveQModel['status'] = this.status;
+    final Map<String, dynamic> FiveQModel = <String, dynamic>{};
+    FiveQModel['id'] = id;
+    FiveQModel['day'] = day;
+    FiveQModel['title'] = title;
+    FiveQModel['description'] = description;
+    FiveQModel['video_link'] = videoLink;
+    FiveQModel['image'] = image;
+    FiveQModel['inserted'] = inserted;
+    FiveQModel['inserted_by'] = insertedBy;
+    FiveQModel['modified'] = modified;
+    FiveQModel['modified_by'] = modifiedBy;
+    FiveQModel['status'] = status;
     return FiveQModel;
   }
 }
