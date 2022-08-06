@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:anmor_garbh_sanskar/Widgets/circular.dart';
 import 'package:anmor_garbh_sanskar/constants/pallete.dart';
 import 'package:anmor_garbh_sanskar/model/planModel.dart';
+import 'package:anmor_garbh_sanskar/services/Rest_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -20,6 +21,8 @@ class _BecomePremiumPageState extends State<BecomePremiumPage> {
   late Razorpay _razorpay;
 
   final List<PlanModel> _plans = <PlanModel>[];
+  String planeId = '';
+  String planAmount = '';
 
   Future<List<PlanModel>> _fetchPlans() async {
     _plans.clear();
@@ -57,35 +60,10 @@ class _BecomePremiumPageState extends State<BecomePremiumPage> {
     _razorpay.clear();
   }
 
-  // void paymentMethod() async {
-  //   String keyId = 'rzp_live_JbVKaw0pMVE3YY';
-  //   String keySecret = 'LhWE35BsLHIL9TE33EJ34FNK';
-  //
-  //   String basicAuth = 'Basic${base64Encode(utf8.encode('$keyId:$keySecret'))}';
-  //
-  //   Map<String, dynamic> body = {
-  //     "amount": 100,
-  //     "currency": "INR",
-  //     "receipt": "reciptId_11"
-  //   };
-  //
-  //   var res = await http.post(Uri.https("api.razorpay.com", "v1/orders"),
-  //       headers: <String, String>{
-  //         "Content-Type": "application/json",
-  //         "authorization": basicAuth,
-  //       },
-  //       body: jsonEncode(body));
-  //
-  //   print(res.statusCode);
-  //
-  //   if (res.statusCode == 200) {
-  //     openGateway(jsonDecode(res.body)['id']);
-  //   }
-  // }
 
   Future<void> generate_ODID(int amount) async {
     var orderOptions = {
-      'amount': 50000,  // amount in the smallest currency unit
+      'amount': int.parse(amount.toString()) * 100,  // amount in the smallest currency unit
       'currency': "INR",
       'receipt': "order_rcptid_11"
     };
@@ -102,7 +80,6 @@ class _BecomePremiumPageState extends State<BecomePremiumPage> {
       Fluttertoast.showToast(msg: "ORDERID: " +orderId, toastLength: Toast.LENGTH_SHORT);
       Map<String, dynamic> checkoutOptions = {
         'key': 'rzp_live_JbVKaw0pMVE3YY',
-        'amount':  int.parse(amount.toString()) * 100,
         'name': 'Demo',
         'order_id' : orderId,
         'description': 'Fssai Registrtion Charge',
@@ -121,30 +98,31 @@ class _BecomePremiumPageState extends State<BecomePremiumPage> {
 
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    print('Success Response: ${response.paymentId}');
-    /*Fluttertoast.showToast(
-        msg: "SUCCESS: " + response.paymentId!,
-        toastLength: Toast.LENGTH_SHORT); */
+    Map<String,String> body = {
+      'plan_id': planeId,
+      'amount': planAmount,
+      'payment_id': response.paymentId!,
+      'reference_id': '',
+      'payment_status': 'success'
+    };
+
+    RestApi.paymentSuccess(body);
+    // print('Success Response: ${response.paymentId}');
+    // /*Fluttertoast.showToast(
+    //     msg: "SUCCESS: " + response.paymentId!,
+    //     toastLength: Toast.LENGTH_SHORT); */
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    print('error');
-    print('Error Response: ${response.code}');
-    /* Fluttertoast.showToast(
-        msg: "ERROR: " + response.code.toString() + " - " + response.message!,
-        toastLength: Toast.LENGTH_SHORT); */
+    Fluttertoast.showToast(msg: 'Payment Cancel');
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
-    print('External SDK Response: $response');
-    /* Fluttertoast.showToast(
-        msg: "EXTERNAL_WALLET: " + response.walletName!,
-        toastLength: Toast.LENGTH_SHORT); */
+    Fluttertoast.showToast(msg: "EXTERNAL_WALLET: " + response.walletName!, toastLength: Toast.LENGTH_SHORT);
   }
 
   @override
   Widget build(BuildContext context) {
-    print('setState called');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Become Premium'),
@@ -224,13 +202,13 @@ class _BecomePremiumPageState extends State<BecomePremiumPage> {
                                               MaterialStateProperty.all(
                                                   Colors.black),
                                         ),
-                                        onPressed: () => generate_ODID(int.parse(item.price.toString())),
-                                        child: const Text(
-                                          'BUY NOW',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
+                                        onPressed: (){
+                                          planeId = item.id.toString();
+                                          planAmount = item.price.toString();
+                                          generate_ODID(int.parse(item.price.toString()));
+                                          setState((){});
+                                        },
+                                        child: const Text('BUY NOW', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
                                         ))
                                   ],
                                 ),

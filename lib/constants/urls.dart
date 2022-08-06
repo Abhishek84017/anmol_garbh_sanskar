@@ -8,4 +8,7 @@ class Urls{
 
   static const String receiveChatMessage = 'https://apis.bhavishashah.com/api/get-chats';
 
+
+  static const String successPaymentApiUrl = 'https://apis.bhavishashah.com/api/payment-details';
+
 }

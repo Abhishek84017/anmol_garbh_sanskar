@@ -81,9 +81,8 @@ class _SignUpState extends State<SignUp> {
         final jsonData = jsonDecode(response.body);
         if(jsonData['message'] == "Customer Registered Successfully")
         {
-
-        await  kSharedPreferences?.setBool('logged', true);
-        await kSharedPreferences?.setInt('id', jsonData['data']['id']);
+          await  kSharedPreferences?.setBool('logged', true);
+          await kSharedPreferences?.setInt('id', jsonData['data']['id']);
            _userName.clear();
           _userEmail.clear();
           _userPassword.clear();

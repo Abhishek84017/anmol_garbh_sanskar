@@ -15,6 +15,8 @@ import '../Widgets/text_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../model/signinModel.dart';
+
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
 
@@ -23,7 +25,6 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-
   bool isLoading = true;
   bool isShown = false;
   final TextEditingController _username = TextEditingController();
@@ -35,6 +36,7 @@ class _SignInState extends State<SignIn> {
       "password": _password.text,
     };
     final response = await http.post(Uri.parse('https://apis.bhavishashah.com/api/check-login'), body: data);
+    print(response.statusCode);
     try {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
@@ -42,6 +44,7 @@ class _SignInState extends State<SignIn> {
           {
              kSharedPreferences?.setBool('logged', true);
             kSharedPreferences?.setInt('id', jsonData['data']['id']);
+            userData = SignInModel.fromJson(jsonData['data']);
             Navigator.push(context, CupertinoPageRoute(builder: (context) => const Homescreen()));
           }
         else
@@ -55,14 +58,10 @@ class _SignInState extends State<SignIn> {
         });
       }
     } on SocketException catch (_) {
-      setState(() {
-        isLoading = true;
-      });
+
       Fluttertoast.showToast(msg: 'Internet Connection required');
     } catch (_) {
-      setState(() {
-        isLoading = true;
-      });
+      print(_);
       Fluttertoast.showToast(msg: 'Something went wrong');
     }
   }
@@ -78,8 +77,7 @@ class _SignInState extends State<SignIn> {
               child: SizedBox(
                   height: 0.2.sh,
                   width: 0.3.sw,
-                  child:
-                      const Image(image: AssetImage('assets/images/icon.png'))),
+                  child: const Image(image: AssetImage('assets/images/icon.png'))),
             ),
             Expanded(
               child: RotatedBox(
@@ -222,7 +220,6 @@ class CustomShape extends CustomClipper<Path> {
     double width = size.width;
 
     var path = Path();
-
     path.lineTo(0, height);
     path.quadraticBezierTo(width * 0.5, height - 100, width, height);
     path.lineTo(width, 0);

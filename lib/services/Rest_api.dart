@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:anmor_garbh_sanskar/model/fiveqModel.dart';
-import 'package:anmor_garbh_sanskar/model/getMealModel.dart';
 import 'package:anmor_garbh_sanskar/model/rechivechatModel.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -18,7 +17,6 @@ class RestApi{
   final List<DailyQTaskModel> _dailyQData = <DailyQTaskModel>[];
   final List<ReceiveChatModel> _chatMessages = <ReceiveChatModel>[];
    List<ReceiveChatModel> _chatMessages2 = <ReceiveChatModel>[];
-  final List<MealsModel> _getMealsData= <MealsModel>[];
 
 
   Future<List<MenuModel>> fetchMenus() async {
@@ -145,27 +143,35 @@ class RestApi{
   }
 
 
-  Future<List<MealsModel>> fetchMeals() async {
-    final response = await http.get(Uri.parse('https://apis.bhavishashah.com/api/get-today-meal/24'));
-    print(response.statusCode);
+  static Future  paymentSuccess(Map<String,String> payload) async{
+    final response = await http.post(Uri.parse(Urls.successPaymentApiUrl),body: payload);
+    try{
+      if(response.statusCode == 200)
+      {
+        Fluttertoast.showToast(msg: 'Plan Purchase Successfully');
+      }
+    }catch(e){
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+
+  Future<List<Map<String, dynamic>>?> fetchMeals(int id) async {
+    final response = await http.get(Uri.parse('https://apis.bhavishashah.com/api/get-today-meal/$id'));
     try {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
         if (jsonData['data'] != null) {
-          jsonData['data']['Pre - Breakfast Snacks'].forEach((v) {
-            _getMealsData.add(MealsModel.fromJson(v));
-          });
+           return List<Map<String, dynamic>>.from(jsonData['data'].map((e) => e as Map<String, dynamic>));
         }
-        print(_getMealsData);
       }
     } on SocketException catch (_) {
-      Fluttertoast.showToast(msg: 'No Internet Connection');
+      return null;
     } catch (e) {
-      print('hello');
       print(e);
-      Fluttertoast.showToast(msg: '$e');
+      return null;
     }
-    return _getMealsData;
+    return null;
   }
 }
 

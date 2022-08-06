@@ -1,5 +1,6 @@
 import 'package:anmor_garbh_sanskar/Screens/become_premium.dart';
 import 'package:anmor_garbh_sanskar/Screens/chat_screen.dart';
+import 'package:anmor_garbh_sanskar/Screens/constants/app_constants.dart';
 import 'package:anmor_garbh_sanskar/Screens/get_meal.dart';
 import 'package:anmor_garbh_sanskar/constants/pallete.dart';
 import 'package:flutter/cupertino.dart';
@@ -53,6 +54,7 @@ class _MoreState extends State<More> {
           childAspectRatio: (2 / 1.2),
         ),
         itemBuilder: (context, index) {
+
           var item = _menuItems[index];
           return Container(
             decoration: BoxDecoration(
@@ -82,9 +84,7 @@ class _MoreState extends State<More> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Icon(Icons.person,size: 32.sp,),
-                  Text(item,
-                      style: TextStyle(fontSize: 18.sp, color: Palette.BackGroundColor,fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center),
+                  Text(item, style: TextStyle(fontSize: 18.sp, color: Palette.BackGroundColor,fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                 ],
               ),
             ),

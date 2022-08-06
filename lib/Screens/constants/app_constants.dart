@@ -4,3 +4,5 @@ import 'package:shared_preferences/shared_preferences.dart';
 SignInModel? kUserData;
 
 SharedPreferences? kSharedPreferences;
+
+SignInModel? userData;
