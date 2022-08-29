@@ -7,6 +7,7 @@ import 'Dailty@task.dart';
 import 'five@task.dart';
 import 'ListView_homepage.dart';
 import 'more.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({Key? key}) : super(key: key);
@@ -29,12 +30,12 @@ class _HomescreenState extends State<Homescreen> {
     return await showDialog<bool>(
             context: context,
             builder: (context) => AlertDialog(
-                  title: const Text('Do you want to exit'),
+                  title:  Text(AppLocalizations.of(context)!.wantToExit),
                   actions: <Widget>[
                     TextButton(
                         onPressed: () => Navigator.pop(context, false),
                         child: Text(
-                          'no',
+                          AppLocalizations.of(context)!.no,
                           style:
                               TextStyle(fontSize: 18.sp, color: Colors.black),
                         )),
@@ -44,7 +45,7 @@ class _HomescreenState extends State<Homescreen> {
                           Navigator.pop(context, true);
                         },
                         child: Text(
-                          'Yes',
+                          AppLocalizations.of(context)!.yes,
                           style:
                               TextStyle(fontSize: 18.sp, color: Colors.black),
                         )),
@@ -60,7 +61,7 @@ class _HomescreenState extends State<Homescreen> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text('Welcome to  Anmol Garbh Sanskar'),
+          title:  Text(AppLocalizations.of(context)!.welcome,),
           backgroundColor: Palette.bottombarcolor,
         ),
         body: Stack(
@@ -87,7 +88,7 @@ class _HomescreenState extends State<Homescreen> {
                 FontAwesomeIcons.house,
                 size: 22.sp,
               ),
-              label: 'HOME',
+              label: AppLocalizations.of(context)!.home,
               backgroundColor: Colors.white,
             ),
             BottomNavigationBarItem(
@@ -95,7 +96,7 @@ class _HomescreenState extends State<Homescreen> {
                 FontAwesomeIcons.listCheck,
                 size: 22.sp,
               ),
-              label: '5Q Task',
+              label: AppLocalizations.of(context)!.task,
               backgroundColor: Palette.bottombarcolor,
             ),
             BottomNavigationBarItem(
@@ -103,7 +104,7 @@ class _HomescreenState extends State<Homescreen> {
                 FontAwesomeIcons.dailymotion,
                 size: 22.sp,
               ),
-              label: 'Daily Task',
+              label: AppLocalizations.of(context)!.dailyTask,
               backgroundColor: Palette.bottombarcolor,
             ),
             BottomNavigationBarItem(
@@ -111,7 +112,7 @@ class _HomescreenState extends State<Homescreen> {
                 Icons.more_horiz,
                 size: 22.sp,
               ),
-              label: 'More',
+              label: AppLocalizations.of(context)!.more,
               backgroundColor: Palette.bottombarcolor,
             ),
           ],

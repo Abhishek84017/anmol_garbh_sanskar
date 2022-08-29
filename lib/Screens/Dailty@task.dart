@@ -7,6 +7,7 @@ import 'package:anmor_garbh_sanskar/services/Rest_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../Widgets/circular.dart';
 
@@ -77,7 +78,6 @@ class _DailyTaskState extends State<DailyTask> {
                         answer[index] = newValue!;
                         if (answer[index] == true) {
                           addedDescription.add({ '"' + item.id.toString() + '"'  : newValue == true ? '"' "Y" '"' : '"' "N" '"'});
-                          print(addedDescription);
                         }
                         if (answer[index] == false) {
                           addedDescription.removeWhere(
@@ -94,12 +94,12 @@ class _DailyTaskState extends State<DailyTask> {
           ),
         ),
         isLoading ? const CircularIndicator(height: 0.75,) : SignInButton(
-          text: 'Save Daily Task',
+          text: AppLocalizations.of(context)!.saveDailyTask,
           maincolor: Palette.bottombarcolor,
           width: double.infinity - 100,
           callback: () {
             if (addedDescription.isEmpty) {
-              Fluttertoast.showToast(msg: 'Task Not Added');
+              Fluttertoast.showToast(msg: AppLocalizations.of(context)!.taskNotAdded);
               return;
             }
             setState(() {

@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BecomePremiumPage extends StatefulWidget {
   const BecomePremiumPage({Key? key}) : super(key: key);
@@ -125,7 +126,7 @@ class _BecomePremiumPageState extends State<BecomePremiumPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Become Premium'),
+        title:  Text(AppLocalizations.of(context)!.becomePremium,),
       ),
       body: FutureBuilder(
           builder: (context, snapshot) {
@@ -149,10 +150,10 @@ class _BecomePremiumPageState extends State<BecomePremiumPage> {
                                       topRight: Radius.circular(25))),
                               width: double.infinity,
                               height: 35,
-                              child: const Align(
+                              child:  Align(
                                   alignment: Alignment.center,
                                   child: Text(
-                                    'Package Name',
+                                    AppLocalizations.of(context)!.packageName,
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 22,
@@ -208,7 +209,7 @@ class _BecomePremiumPageState extends State<BecomePremiumPage> {
                                           generate_ODID(int.parse(item.price.toString()));
                                           setState((){});
                                         },
-                                        child: const Text('BUY NOW', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                                        child:  Text(AppLocalizations.of(context)!.buyNow,style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
                                         ))
                                   ],
                                 ),

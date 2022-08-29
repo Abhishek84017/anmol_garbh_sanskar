@@ -1,3 +1,4 @@
+import 'package:anmor_garbh_sanskar/constants/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -33,7 +34,7 @@ class DropDownButtonWidget extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 12.w),
               padding: EdgeInsets.symmetric(horizontal: 5.w),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.black, width: 1.w),
+                border: Border.all(color: Palette.BackGroundColor, width: 1.w),
                 borderRadius: BorderRadius.circular(10.w),
               ),
               child: Padding(

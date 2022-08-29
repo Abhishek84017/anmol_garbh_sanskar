@@ -1,0 +1,102 @@
+{
+   "welcome" : "Welcome to anmol garbh Sanskar",
+      "@welcome": {
+      "description":"welcome word"
+      },
+   "home" : "Home",
+      "@welcome": {
+      "description":"home"
+      },
+   "task" : "5Q Task",
+      "@welcome": {
+      "description":"5Q Task"
+      },
+   "dailyTask" : "Daily Task",
+      "@welcome": {
+      "description":"5Q Task"
+      },
+   "more" : "More",
+      "@welcome": {
+      "description":"More"
+      },
+   "saveDailyTask" : "Save Daily Task",
+      "@welcome": {
+      "description":"save daily task"
+      },
+   "taskNotAdded" : "Task Not Added",
+      "@welcome": {
+      "description":"task not added"
+      },
+   "about" : "About",
+      "@welcome": {
+      "description":"about"
+      },
+   "profile" : "Profile",
+      "@welcome": {
+      "description":"profile"
+      },
+   "contactUs" : "Contact Us",
+      "@welcome": {
+      "description":"Contact Us"
+      },
+   "packages" : "Packages",
+      "@welcome": {
+      "description":"packages"
+      },
+   "gelMeal" : "Gel Meal",
+      "@welcome": {
+      "description":"get meal"
+      },
+   "reports" : "Reports",
+      "@welcome": {
+      "description":"Reports"
+      },
+   "support" : "Support",
+      "@welcome": {
+      "description":"support"
+      },
+   "language" : "Language",
+      "@welcome": {
+      "description":"language"
+      },
+   "logout" : "LogOut",
+      "@welcome": {
+      "description":"logout"
+      },
+   "hindi" : "Hindi",
+      "@welcome": {
+      "description":"logout"
+      },
+   "english" : "English",
+      "@welcome": {
+      "description":"logout"
+      },
+   "gujarati" : "Gujarati",
+      "@welcome": {
+      "description":"logout"
+      },
+   "becomePremium" : "Become Premium",
+      "@welcome": {
+      "description":"logout"
+      },
+   "packageName" : "Package Name",
+      "@welcome": {
+      "description":"logout"
+      },
+   "buyNow" : "BUY NOW",
+      "@welcome": {
+      "description":"logout"
+      },
+   "wantToExit" : "Do you want to exit",
+      "@welcome": {
+      "description":"logout"
+      },
+   "yes" : "Yes",
+      "@welcome": {
+      "description":"logout"
+      },
+   "no" : "No",
+      "@welcome": {
+      "description":"logout"
+      }
+}

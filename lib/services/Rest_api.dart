@@ -9,18 +9,17 @@ import '../constants/urls.dart';
 import '../model/dailyTaskmodel.dart';
 import '../model/submenu_model.dart';
 
-
-class RestApi{
+class RestApi {
   final List<MenuModel> _menus = <MenuModel>[];
   final List<SubMenuHomepageModel> _submenus = <SubMenuHomepageModel>[];
   final List<FiveQModel> _fiveQData = <FiveQModel>[];
   final List<DailyQTaskModel> _dailyQData = <DailyQTaskModel>[];
   final List<ReceiveChatModel> _chatMessages = <ReceiveChatModel>[];
-   List<ReceiveChatModel> _chatMessages2 = <ReceiveChatModel>[];
-
+  List<ReceiveChatModel> _chatMessages2 = <ReceiveChatModel>[];
 
   Future<List<MenuModel>> fetchMenus() async {
-    final response = await http.post(Uri.parse("https://apis.bhavishashah.com/api/get-menus"));
+    final response = await http
+        .post(Uri.parse("https://apis.bhavishashah.com/api/get-menus"));
     try {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
@@ -33,14 +32,16 @@ class RestApi{
     } on SocketException {
       Fluttertoast.showToast(msg: 'No Internet Connection');
     } catch (e) {
-      print('hello');
       Fluttertoast.showToast(msg: '$e');
     }
     return _menus;
   }
 
-  Future<List<SubMenuHomepageModel>> fetchSubMenus(Map<String,String> data ) async {
-    final response = await http.post(Uri.parse("https://apis.bhavishashah.com/api/get-menus"),body: data);
+  Future<List<SubMenuHomepageModel>> fetchSubMenus(
+      Map<String, String> data) async {
+    final response = await http.post(
+        Uri.parse("https://apis.bhavishashah.com/api/get-menus"),
+        body: data);
     try {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
@@ -58,9 +59,9 @@ class RestApi{
     return _submenus;
   }
 
-
   Future<List<FiveQModel>> fetchFiveQTask(int id) async {
-    final response = await http.get(Uri.parse("https://apis.bhavishashah.com/api/get-five-q-task/$id"));
+    final response = await http.get(
+        Uri.parse("https://apis.bhavishashah.com/api/get-five-q-task/$id"));
     try {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
@@ -79,7 +80,8 @@ class RestApi{
   }
 
   Future<List<DailyQTaskModel>> fetchDailyQTask(int id) async {
-    final response = await http.get(Uri.parse("https://apis.bhavishashah.com/api/get-daily-task/$id"));
+    final response = await http
+        .get(Uri.parse("https://apis.bhavishashah.com/api/get-daily-task/$id"));
     try {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
@@ -97,14 +99,12 @@ class RestApi{
     return _dailyQData;
   }
 
-
- static Future sendTask(Map<String,String> data ) async {
-
-    final response = await http.post(Uri.parse(Urls.sendTaskId),body: data);
+  static Future sendTask(Map<String, String> data) async {
+    final response = await http.post(Uri.parse(Urls.sendTaskId), body: data);
     print(response.statusCode);
     try {
       if (response.statusCode == 200) {
-          Fluttertoast.showToast(msg: 'Status Saved');
+        Fluttertoast.showToast(msg: 'Status Saved');
       }
     } on SocketException {
       Fluttertoast.showToast(msg: 'No Internet Connection');
@@ -114,14 +114,16 @@ class RestApi{
     }
   }
 
-  static Future sendMessage(Map<String,String> data ) async {
+  static Future sendMessage(Map<String, String> data) async {
     print(data);
-    final response = await http.post(Uri.parse(Urls.sendChatMessage),body: data);
+    final response =
+        await http.post(Uri.parse(Urls.sendChatMessage), body: data);
     print(response.statusCode);
   }
 
   Future<List<ReceiveChatModel>> fetchChatMessages(int id) async {
-    final response = await http.get(Uri.parse('${Urls.receiveChatMessage}/$id'));
+    final response =
+        await http.get(Uri.parse('${Urls.receiveChatMessage}/$id'));
 
     try {
       if (response.statusCode == 200) {
@@ -142,27 +144,27 @@ class RestApi{
     return _chatMessages2;
   }
 
-
-  static Future  paymentSuccess(Map<String,String> payload) async{
-    final response = await http.post(Uri.parse(Urls.successPaymentApiUrl),body: payload);
-    try{
-      if(response.statusCode == 200)
-      {
+  static Future paymentSuccess(Map<String, String> payload) async {
+    final response =
+        await http.post(Uri.parse(Urls.successPaymentApiUrl), body: payload);
+    try {
+      if (response.statusCode == 200) {
         Fluttertoast.showToast(msg: 'Plan Purchase Successfully');
       }
-    }catch(e){
+    } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
   }
 
-
   Future<List<Map<String, dynamic>>?> fetchMeals(int id) async {
-    final response = await http.get(Uri.parse('https://apis.bhavishashah.com/api/get-today-meal/$id'));
+    final response = await http
+        .get(Uri.parse('https://apis.bhavishashah.com/api/get-today-meal/$id'));
     try {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
         if (jsonData['data'] != null) {
-           return List<Map<String, dynamic>>.from(jsonData['data'].map((e) => e as Map<String, dynamic>));
+          return List<Map<String, dynamic>>.from(
+              jsonData['data'].map((e) => e as Map<String, dynamic>));
         }
       }
     } on SocketException catch (_) {
@@ -174,9 +176,3 @@ class RestApi{
     return null;
   }
 }
-
-
-
-
-
-
