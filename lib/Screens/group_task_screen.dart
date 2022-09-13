@@ -1,8 +1,6 @@
-import 'package:anmor_garbh_sanskar/Screens/constants/app_constants.dart';
-import 'package:anmor_garbh_sanskar/Screens/group_task_screen.dart';
 import 'package:anmor_garbh_sanskar/Widgets/pdfviewer.dart';
 import 'package:anmor_garbh_sanskar/constants/pallete.dart';
-import 'package:anmor_garbh_sanskar/model/submenu_model.dart';
+import 'package:anmor_garbh_sanskar/model/groupTaskModel.dart';
 import 'package:anmor_garbh_sanskar/players/audioplayer.dart';
 import 'package:anmor_garbh_sanskar/players/youtubeplayer.dart';
 import 'package:anmor_garbh_sanskar/services/Rest_api.dart';
@@ -11,23 +9,23 @@ import 'package:flutter/material.dart';
 import '../Widgets/circular.dart';
 import 'contentScreen.dart';
 
-class SubMenu extends StatefulWidget {
+class GroupTaskScreen extends StatefulWidget {
   final Map<String, String> data;
 
-  const SubMenu({Key? key, required this.data}) : super(key: key);
+  const GroupTaskScreen({Key? key, required this.data}) : super(key: key);
 
   @override
-  State<SubMenu> createState() => _SubMenuState();
+  State<GroupTaskScreen> createState() => _GroupTaskScreenState();
 }
 
-class _SubMenuState extends State<SubMenu> {
+class _GroupTaskScreenState extends State<GroupTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Submenus'),
+        title: const Text('Task Data'),
       ),
-      body: FutureBuilder<List<SubMenuHomepageModel>>(
+      body: FutureBuilder<List<GroupTaskModel>>(
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return snapshot.data!.isNotEmpty
@@ -81,20 +79,6 @@ class _SubMenuState extends State<SubMenu> {
                                             ),
                                           );
                                         }
-                                        if (item.type == 'group') {
-                                          var id = {
-                                            'customer_id': kSharedPreferences!
-                                                .getInt('id')!
-                                                .toString(),
-                                            'task_group_id': item.content!
-                                          };
-                                          Navigator.push(
-                                            context,
-                                            CupertinoPageRoute(
-                                                builder: (context) =>
-                                                    GroupTaskScreen(data: id)),
-                                          );
-                                        }
                                         if (item.type == 'custom') {
                                           Navigator.push(
                                             context,
@@ -108,7 +92,7 @@ class _SubMenuState extends State<SubMenu> {
                                         }
                                       },
                                       title: Align(
-                                          alignment: Alignment.centerRight,
+                                          alignment: Alignment.centerLeft,
                                           child: Text(
                                             '${item.title}',
                                             style: const TextStyle(
@@ -117,25 +101,6 @@ class _SubMenuState extends State<SubMenu> {
                                           )),
                                     ),
                                   ),
-                                  item.icon == null
-                                      ? const Positioned(
-                                          top: 3,
-                                          left: -25,
-                                          child: CircleAvatar(
-                                            radius: 47,
-                                            backgroundImage: AssetImage(
-                                                'assets/images/download.png'),
-                                          ),
-                                        )
-                                      : Positioned(
-                                          top: 3,
-                                          left: -25,
-                                          child: CircleAvatar(
-                                            radius: 47,
-                                            backgroundImage: NetworkImage(
-                                                'https://apis.bhavishashah.com/${item.icon}'),
-                                          ),
-                                        ),
                                 ],
                               ),
                             ),
@@ -185,18 +150,6 @@ class _SubMenuState extends State<SubMenu> {
                                             ),
                                           );
                                         }
-                                        if (item.type == 'group') {
-                                          var id = {
-                                            'customer_id': '1',
-                                            'task_group_id': '1'
-                                          };
-                                          Navigator.push(
-                                            context,
-                                            CupertinoPageRoute(
-                                                builder: (context) =>
-                                                    GroupTaskScreen(data: id)),
-                                          );
-                                        }
                                       },
                                       title: Align(
                                           alignment: Alignment.centerLeft,
@@ -208,25 +161,6 @@ class _SubMenuState extends State<SubMenu> {
                                           )),
                                     ),
                                   ),
-                                  item.icon == null
-                                      ? const Positioned(
-                                          top: 3,
-                                          right: -25,
-                                          child: CircleAvatar(
-                                            radius: 47,
-                                            backgroundImage: AssetImage(
-                                                'assets/images/download.png'),
-                                          ),
-                                        )
-                                      : Positioned(
-                                          top: 3,
-                                          right: -25,
-                                          child: CircleAvatar(
-                                            radius: 47,
-                                            backgroundImage: NetworkImage(
-                                                'https://apis.bhavishashah.com/${item.icon}'),
-                                          ),
-                                        )
                                 ],
                               ),
                             ),
@@ -244,7 +178,7 @@ class _SubMenuState extends State<SubMenu> {
               );
             }
           },
-          future: RestApi().fetchSubMenus(widget.data)),
+          future: RestApi().fetchGroupTask(widget.data)),
     );
   }
 }

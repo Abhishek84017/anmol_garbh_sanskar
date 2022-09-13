@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:anmor_garbh_sanskar/model/fiveqModel.dart';
+import 'package:anmor_garbh_sanskar/model/getLanguageModel.dart';
+import 'package:anmor_garbh_sanskar/model/groupTaskModel.dart';
 import 'package:anmor_garbh_sanskar/model/rechivechatModel.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -16,6 +18,8 @@ class RestApi {
   final List<DailyQTaskModel> _dailyQData = <DailyQTaskModel>[];
   final List<ReceiveChatModel> _chatMessages = <ReceiveChatModel>[];
   List<ReceiveChatModel> _chatMessages2 = <ReceiveChatModel>[];
+  final List<GetLanguageDataModel> _getLanguage = <GetLanguageDataModel>[];
+  final List<GroupTaskModel> _groupTaskData= <GroupTaskModel>[];
 
   Future<List<MenuModel>> fetchMenus() async {
     final response = await http
@@ -174,5 +178,63 @@ class RestApi {
       return null;
     }
     return null;
+  }
+
+  Future<List<GetLanguageDataModel>> getLanguage() async {
+    final response = await http.get(
+      Uri.parse('https://apis.bhavishashah.com/api/get-language'),
+    );
+    try {
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        if (jsonData['data'] != null) {
+          jsonData['data'].forEach((v) {
+            _getLanguage.add(GetLanguageDataModel.fromJson(v));
+          });
+        }
+      }
+    } on SocketException {
+      Fluttertoast.showToast(msg: 'No Internet Connection');
+    } catch (e) {
+      Fluttertoast.showToast(msg: '$e');
+    }
+    return _getLanguage;
+  }
+
+  Future<List<GroupTaskModel>> fetchGroupTask(
+      Map<String, String> data) async {
+    final response = await http.post(
+        Uri.parse("https://apis.bhavishashah.com/api/get-group-task"),
+        body: data);
+    try {
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        if (jsonData['data'] != null) {
+          jsonData['data'].forEach((v) {
+            _groupTaskData.add(GroupTaskModel.fromJson(v));
+          });
+        }
+      }
+    } on SocketException {
+      Fluttertoast.showToast(msg: 'No Internet Connection');
+    } catch (e) {
+      Fluttertoast.showToast(msg: '$e');
+    }
+    return _groupTaskData;
+  }
+
+ static  Future updateLanguage(Map<String, String> data) async {
+    final response = await http.post(
+        Uri.parse("https://apis.bhavishashah.com/api/update-language"),
+        body: data);
+    try {
+      if (response.statusCode == 200) {
+        Fluttertoast.showToast(msg: 'Updated Language');
+      }
+    } on SocketException {
+      Fluttertoast.showToast(msg: 'No Internet Connection');
+    } catch (e) {
+      Fluttertoast.showToast(msg: '$e');
+    }
   }
 }

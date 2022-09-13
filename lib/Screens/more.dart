@@ -2,14 +2,20 @@ import 'dart:async';
 import 'package:anmor_garbh_sanskar/Screens/become_premium.dart';
 import 'package:anmor_garbh_sanskar/Screens/chat_screen.dart';
 import 'package:anmor_garbh_sanskar/Screens/get_meal.dart';
+import 'package:anmor_garbh_sanskar/Widgets/circular.dart';
 import 'package:anmor_garbh_sanskar/Widgets/dropdownbutton.dart';
+import 'package:anmor_garbh_sanskar/Widgets/text_button.dart';
 import 'package:anmor_garbh_sanskar/constants/pallete.dart';
+import 'package:anmor_garbh_sanskar/model/getLanguageModel.dart';
 import 'package:anmor_garbh_sanskar/provider/languageprovider.dart';
+import 'package:anmor_garbh_sanskar/services/Rest_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'constants/app_constants.dart';
 
 class More extends StatefulWidget {
   const More({Key? key}) : super(key: key);
@@ -49,8 +55,39 @@ class _MoreState extends State<More> {
   final StreamController<String> _languageController =
       StreamController<String>.broadcast();
 
+  List<GetLanguageDataModel> _language = <GetLanguageDataModel>[];
+
+  List<String> _dummyLanguage = <String>[];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchLanguage();
+  }
+
+  Future<List<GetLanguageDataModel>> _fetchLanguage() async {
+    _language = await RestApi().getLanguage();
+    _dummyLanguage = _language.map((e) => e.title!).toList();
+    setState(() {});
+    return _language;
+  }
+
+  bool isLoading = false;
+
+  void _updateLanguage(String keyword) async {
+    final payload = <String, String>{
+      'id': '${kSharedPreferences!.getInt('id')}',
+      'keyword': keyword
+    };
+    await RestApi.updateLanguage(payload);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('setstae');
     final List<String> _menuItems = <String>[
       AppLocalizations.of(context)!.about,
       AppLocalizations.of(context)!.profile,
@@ -61,11 +98,6 @@ class _MoreState extends State<More> {
       AppLocalizations.of(context)!.support,
       AppLocalizations.of(context)!.language,
       AppLocalizations.of(context)!.logout
-    ];
-    final List<String> _languages = <String>[
-      AppLocalizations.of(context)!.hindi,
-      AppLocalizations.of(context)!.english,
-      AppLocalizations.of(context)!.gujarati
     ];
     return GridView.builder(
       itemCount: _menuItems.length,
@@ -78,6 +110,7 @@ class _MoreState extends State<More> {
       ),
       itemBuilder: (context, index) {
         var item = _menuItems[index];
+
         return Container(
           decoration: BoxDecoration(
             border: Border.all(color: Palette.bottombarcolor, width: 0.05),
@@ -111,51 +144,77 @@ class _MoreState extends State<More> {
                       content: Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             const Padding(
                               padding: EdgeInsets.only(left: 15),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text('Select Language'),
-                              ),
+                              child: Text('Select Language'),
                             ),
+                            _dummyLanguage.isNotEmpty
+                                ? StreamBuilder(
+                                    initialData: 'English',
+                                    stream: _languageController.stream,
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<String> snapshot) {
+                                      return DropDownButtonWidget(
+                                        hinttext: 'Select Language',
+                                        value: snapshot.data,
+                                        items: _dummyLanguage.map(
+                                          (e) {
+                                            return DropdownMenuItem(
+                                              value: e,
+                                              child: Text(e),
+                                            );
+                                          },
+                                        ).toList(),
+                                        callback: (value) {
+                                          _languageController.sink.add(value);
+                                          final provider = Provider.of<
+                                                  ChangeLanguageProvider>(
+                                              context,
+                                              listen: false);
+                                          if (value == 'Hindi') {
+                                            provider.setLocale('hi');
+                                          } else if (value == 'English') {
+                                            provider.setLocale('en');
+                                          } else if (value == 'Gujarati') {
+                                            provider.setLocale('gu');
+                                          }
+                                        },
+                                      );
+                                    },
+                                  )
+                                : const Text('Please Wait'),
                             StreamBuilder(
-                              initialData:
-                                  AppLocalizations.of(context)!.english,
+                              initialData: 'English',
                               stream: _languageController.stream,
                               builder: (BuildContext context,
                                   AsyncSnapshot<String> snapshot) {
-                                return DropDownButtonWidget(
-                                  hinttext: 'Select Language',
-                                  value: snapshot.data,
-                                  items: _languages.map((e) {
-                                    return DropdownMenuItem(
-                                      value: e,
-                                      child: Text(e),
-                                    );
-                                  }).toList(),
-                                  callback: (value) {
-                                    _languageController.sink.add(value);
-                                    final provider =
-                                        Provider.of<ChangeLanguageProvider>(
-                                            context,
-                                            listen: false);
-                                    if (value ==
-                                        AppLocalizations.of(context)!.hindi) {
-                                      provider.setLocale('hi');
-                                    } else if (value ==
-                                        AppLocalizations.of(context)!.english) {
-                                      provider.setLocale('en');
-                                    } else if (value ==
-                                        AppLocalizations.of(context)!
-                                            .gujarati) {
-                                      provider.setLocale('gu');
-                                    }
-                                  },
-                                );
+                                return isLoading == false
+                                    ? Align(
+                                        alignment: Alignment.center,
+                                        child: SignInButton(
+                                          text: AppLocalizations.of(context)!
+                                              .save,
+                                          maincolor: Palette.bottombarcolor,
+                                          width: 100,
+                                          callback: () {
+                                            Navigator.pop(context);
+                                            _updateLanguage(snapshot.data!);
+                                            setState(
+                                              () {
+                                                isLoading = true;
+                                              },
+                                            );
+                                          },
+                                        ),
+                                      )
+                                    : const CircularIndicator(
+                                        height: 0.75,
+                                      );
                               },
-                            ),
+                            )
                           ],
                         ),
                       ),

@@ -98,5 +98,9 @@
    "no" : "No",
       "@welcome": {
       "description":"logout"
+      },
+   "save" : "save",
+      "@welcome": {
+      "description":"logout"
       }
 }
